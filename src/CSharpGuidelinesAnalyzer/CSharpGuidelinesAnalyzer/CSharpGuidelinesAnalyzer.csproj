@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\CSharpGuidelinesAnalyzer.0.3.0-pre-00012\build\CSharpGuidelinesAnalyzer.props" Condition="Exists('..\..\packages\CSharpGuidelinesAnalyzer.0.3.0-pre-00012\build\CSharpGuidelinesAnalyzer.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
@@ -14,6 +15,8 @@
     <TargetFrameworkProfile>Profile7</TargetFrameworkProfile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <ReportAnalyzer>true</ReportAnalyzer>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -106,7 +109,9 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="tools\install.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -116,6 +121,7 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Analyzer Include="..\..\packages\CSharpGuidelinesAnalyzer.0.3.0-pre-00012\analyzers\dotnet\cs\CSharpGuidelinesAnalyzer.dll" />
     <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
     <Analyzer Include="..\..\packages\ResharperCodeContractNullability.1.0.5\analyzers\dotnet\cs\CodeContractNullability.dll" />
@@ -210,5 +216,11 @@
     </Exec>
   </Target>
   <Target Name="BeforeBuild" DependsOnTargets="CopyExternalAnnotations">
+  </Target>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\CSharpGuidelinesAnalyzer.0.3.0-pre-00012\build\CSharpGuidelinesAnalyzer.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\CSharpGuidelinesAnalyzer.0.3.0-pre-00012\build\CSharpGuidelinesAnalyzer.props'))" />
   </Target>
 </Project>
