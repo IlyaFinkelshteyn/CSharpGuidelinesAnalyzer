@@ -14,11 +14,7 @@ build:
   project: src\CSharpGuidelinesAnalyzer.sln
   verbosity: minimal
 after_test:
-- ps: >-
-    .\src\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -returntargetcode -register:user -target:".\src\packages\xunit.runner.console.2.1.0\tools\xunit.console.x86.exe" -targetargs:".\src\CSharpGuidelinesAnalyzer\CSharpGuidelinesAnalyzer.Test\bin\Release\CSharpGuidelinesAnalyzer.Test.dll -noshadow -appveyor" -filter:"+[CSharpGuidelinesAnalyzer]*  -[CSharpGuidelinesAnalyzer]CSharpGuidelinesAnalyzer.Properties.*" -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All -output:CSharpGuidelinesAnalyzerCoverage.xml
-
-    "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
-
-    pip install codecov
-
-    codecov -f "CSharpGuidelinesAnalyzerCoverage.xml"
+- .\src\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -returntargetcode -register:user -target:".\src\packages\xunit.runner.console.2.1.0\tools\xunit.console.x86.exe" -targetargs:".\src\CSharpGuidelinesAnalyzer\CSharpGuidelinesAnalyzer.Test\bin\Release\CSharpGuidelinesAnalyzer.Test.dll -noshadow -appveyor" -filter:"+[CSharpGuidelinesAnalyzer]*  -[CSharpGuidelinesAnalyzer]CSharpGuidelinesAnalyzer.Properties.*" -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All -output:CSharpGuidelinesAnalyzerCoverage.xml
+- SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%
+- pip install codecov
+- codecov -f "CSharpGuidelinesAnalyzerCoverage.xml"
