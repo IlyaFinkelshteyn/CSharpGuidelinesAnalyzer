@@ -1,0 +1,24 @@
+version: 0.4.0-pre-{build}-{branch}
+image: Visual Studio 2015
+configuration: Release
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+cache: packages -> **\packages.config
+before_build:
+- ps: nuget restore src\CSharpGuidelinesAnalyzer.sln
+build:
+  project: src\CSharpGuidelinesAnalyzer.sln
+  verbosity: minimal
+after_test:
+- ps: >-
+    .\src\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -returntargetcode -register:user -target:".\src\packages\xunit.runner.console.2.1.0\tools\xunit.console.x86.exe" -targetargs:".\src\CSharpGuidelinesAnalyzer\CSharpGuidelinesAnalyzer.Test\bin\Release\CSharpGuidelinesAnalyzer.Test.dll -noshadow -appveyor" -filter:"+[CSharpGuidelinesAnalyzer]*  -[CSharpGuidelinesAnalyzer]CSharpGuidelinesAnalyzer.Properties.*" -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All -output:CSharpGuidelinesAnalyzerCoverage.xml
+
+    "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
+
+    pip install codecov
+
+    codecov -f "CSharpGuidelinesAnalyzerCoverage.xml"
